@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Green_4
     {
@@ -57,6 +57,21 @@ namespace Lab_6
                 }
             }
 
+            public static void Sort(Participant[] array)
+            {
+                if (array == null) return;
+                for (int i = 0; i < array.Length - 1; i++)
+                {
+                    for (int j = 0; j < array.Length - 1 - i; j++)
+                    {
+                        if (array[j].BestJump < array[j + 1].BestJump)
+                        {
+                            (array[j], array[j + 1]) = (array[j + 1], array[j]);
+                        }
+                    }
+                }
+            }
+
             public void Print()
             {
                 Console.WriteLine($"{Name} {Surname} {BestJump}");
@@ -72,7 +87,16 @@ namespace Lab_6
 
             // Свойства
             public string Name => _name;
-            public Participant[] Participants => _participants;
+            public Participant[] Participants
+            {
+                get
+                {
+                    if (_participants == null) return null;
+                    Participant[] copy = new Participant[_participants.Length];
+                    Array.Copy(_participants, copy, _participants.Length);
+                    return copy;
+                }
+            }
 
             // Конструктор
             public Discipline(string name)
@@ -88,24 +112,19 @@ namespace Lab_6
                 _participants[_participants.Length - 1] = participant;
             }
 
+            public void Add(params Participant[] participants)
+            {
+                int oldLength = _participants.Length;
+                Array.Resize(ref _participants, oldLength + participants.Length);
+                Array.Copy(participants, 0, _participants, oldLength, participants.Length);
+            }
+
             public void Sort()
             {
-                if (_participants == null || _participants.Length <= 1)
-                    return;
-
-                for (int i = 0; i < _participants.Length - 1; i++)
-                {
-                    for (int j = 0; j < _participants.Length - 1 - i; j++)
-                    {
-                        if (_participants[j].BestJump < _participants[j + 1].BestJump)
-                        {
-                            Participant temp = _participants[j];
-                            _participants[j] = _participants[j + 1];
-                            _participants[j + 1] = temp;
-                        }
-                    }
-                }
+                Participant.Sort(_participants);
             }
+            // Абстрактный метод для повторной попытки
+            public abstract void Retry(int index);
 
             public void Print()
             {
@@ -115,9 +134,6 @@ namespace Lab_6
                     participant.Print();
                 }
             }
-
-            // Абстрактный метод для повторной попытки
-            public abstract void Retry(int index);
         }
 
         // Класс LongJump
@@ -130,10 +146,7 @@ namespace Lab_6
             public override void Retry(int index)
             {
                 if (index < 0 || index >= Participants.Length)
-                {
-                    Console.WriteLine("Некорректный индекс участника.");
                     return;
-                }
 
                 Participant participant = Participants[index];
                 double bestJump = participant.BestJump;

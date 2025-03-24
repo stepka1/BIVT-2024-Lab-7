@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     internal class Program
     {
@@ -12,34 +12,34 @@ namespace Lab_6
         {
             Console.WriteLine("Green_1:");
 
-            Green_1.Participant[] participants_1 = new Green_1.Participant[10];
+            Green_1.Participant[] participants = new Green_1.Participant[10];
 
-            participants_1[0] = new Green_1.Participant.Participant100M("Степанова", "Спартак", "Зайцев");
-            participants_1[1] = new Green_1.Participant.Participant100M("Кристиан", "Русь", "Жарков");
-            participants_1[2] = new Green_1.Participant.Participant100M("Чехова", "Юность", "Свиридов");
-            participants_1[3] = new Green_1.Participant.Participant100M("Зайцева", "Быки", "Свиридов");
-            participants_1[4] = new Green_1.Participant.Participant100M("Смирнова", "Русь", "Павлов");
+            participants[0] = new Green_1.Participant100M("Степанова", "Спартак", "Зайцев");
+            participants[1] = new Green_1.Participant100M("Кристиан", "Русь", "Жарков");
+            participants[2] = new Green_1.Participant100M("Чехова", "Юность", "Свиридов");
+            participants[3] = new Green_1.Participant100M("Зайцева", "Быки", "Свиридов");
+            participants[4] = new Green_1.Participant100M("Смирнова", "Русь", "Павлов");
 
-            participants_1[5] = new Green_1.Participant.Participant500M("Кристиан", "Химик", "Распутин");
-            participants_1[6] = new Green_1.Participant.Participant500M("Иванова", "Байкал", "Иванов");
-            participants_1[7] = new Green_1.Participant.Participant500M("Жаркова", "Югра", "Жарков");
-            participants_1[8] = new Green_1.Participant.Participant500M("Чехова", "Метеор", "Тихонов");
-            participants_1[9] = new Green_1.Participant.Participant500M("Степанова", "Энергия", "Свиридов");
+            participants[5] = new Green_1.Participant500M("Кристиан", "Химик", "Распутин");
+            participants[6] = new Green_1.Participant500M("Иванова", "Байкал", "Иванов");
+            participants[7] = new Green_1.Participant500M("Жаркова", "Югра", "Жарков");
+            participants[8] = new Green_1.Participant500M("Чехова", "Метеор", "Тихонов");
+            participants[9] = new Green_1.Participant500M("Степанова", "Энергия", "Свиридов");
 
-            participants_1[0].Run(41.94);  
-            participants_1[1].Run(55.29);  
-            participants_1[2].Run(72.01);  
-            participants_1[3].Run(140.78);  
-            participants_1[4].Run(95.45);  
-            participants_1[5].Run(79.63);  
-            participants_1[6].Run(29.67);  
-            participants_1[7].Run(18.41);  
-            participants_1[8].Run(140.87);  
-            participants_1[9].Run(75.52);  
+            participants[0].Run(41.94);
+            participants[1].Run(55.29);
+            participants[2].Run(72.01);
+            participants[3].Run(140.78);
+            participants[4].Run(95.45);
+            participants[5].Run(79.63);
+            participants[6].Run(29.67);
+            participants[7].Run(18.41);
+            participants[8].Run(140.87);
+            participants[9].Run(75.52);
 
-            for (int i = 0; i < participants_1.Length; i++)
+            for (int i = 0; i < participants.Length; i++)
             {
-                participants_1[i].Print();
+                participants[i].Print();
             }
 
             Console.WriteLine($"Passed the standard: {Green_1.Participant.PassedTheStandard}");
@@ -47,8 +47,8 @@ namespace Lab_6
 
             Console.WriteLine("Участники забега на 100 метров, тренирующиеся у Свиридова:");
             var trainerParticipants = Green_1.Participant.GetTrainerParticipants(
-                participants_1,
-                typeof(Green_1.Participant.Participant100M),
+                participants,
+                typeof(Green_1.Participant100M),
                 "Свиридов"
             );
 

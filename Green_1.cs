@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Green_1
     {
@@ -84,28 +84,26 @@ namespace Lab_6
                 }
                 return result;
             }
-            // классы наследники
-            public class Participant100M : Participant
-            {
-                public Participant100M(string surname, string group, string trainer) : base(surname, group, trainer)
-                {
-                    _standard = 12;
-                }
-            }
-
-            public class Participant500M : Participant
-            {
-                public Participant500M(string surname, string group, string trainer) : base(surname, group, trainer)
-                {
-                    _standard = 90;
-                }
-            }
-
             public void Print()
             {
                 Console.WriteLine($"{Surname} {Group} {Trainer} {Result} {HasPassed}");
             }
-            
         }
+        // классы наследники
+        public class Participant100M : Participant
+        {
+            public Participant100M(string surname, string group, string trainer) : base(surname, group, trainer)
+            {
+                _standard = 12;
+            }
+        }
+
+        public class Participant500M : Participant
+        {
+            public Participant500M(string surname, string group, string trainer) : base(surname, group, trainer)
+            {
+                _standard = 90;
+            }
+        } 
     }
 }

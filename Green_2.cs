@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Green_2
     {
@@ -105,8 +105,6 @@ namespace Lab_6
                     _excellentCount++;
                 }
             }
-
-            
 
             public static void SortByAvgMark(Student [] array)
             {

@@ -103,6 +103,7 @@ namespace Lab_7
                 if (_marks.All(m => m >= 4) && _marks.All(m => m != 0) && !_isCountedAsExcellent)
                 {
                     _excellentCount++;
+                    _isCountedAsExcellent = true;
                 }
             }
 

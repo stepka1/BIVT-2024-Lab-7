@@ -5,8 +5,8 @@ namespace Lab_7
 {
     public class Green_4
     {
-        // Класс Participant
-        public class Participant
+        // Структура Participant
+        public struct Participant
         {
             // Поля
             private string _name;
@@ -84,39 +84,34 @@ namespace Lab_7
             // Поля
             private string _name;
             private Participant[] _participants;
-
+            private int _participantCount;
             // Свойства
             public string Name => _name;
-            public Participant[] Participants
-            {
-                get
-                {
-                    if (_participants == null) return null;
-                    Participant[] copy = new Participant[_participants.Length];
-                    Array.Copy(_participants, copy, _participants.Length);
-                    return copy;
-                }
-            }
+            public Participant[] Participants => _participants;
 
             // Конструктор
             public Discipline(string name)
             {
                 _name = name;
                 _participants = new Participant[0]; // Инициализация пустого массива
+                _participantCount = 0;
             }
 
             // Методы
             public void Add(Participant participant)
             {
                 Array.Resize(ref _participants, _participants.Length + 1);
-                _participants[_participants.Length - 1] = participant;
+                _participants[_participantCount] = participant;
+                _participantCount++;
             }
 
-            public void Add(params Participant[] participants)
+            public void Add(Participant[] participants)
             {
-                int oldLength = _participants.Length;
-                Array.Resize(ref _participants, oldLength + participants.Length);
-                Array.Copy(participants, 0, _participants, oldLength, participants.Length);
+                int count = participants.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    Add(_participants[i]);
+                }
             }
 
             public void Sort()
@@ -168,7 +163,6 @@ namespace Lab_7
             {
                 if (index < 0 || index >= Participants.Length)
                 {
-                    Console.WriteLine("Некорректный индекс участника.");
                     return;
                 }
 

@@ -98,6 +98,7 @@ namespace Lab_7
             {
                 if (_marks == null || _marks.Length == 0) return;
                 if (mark < 2 || mark > 5) return;
+                if (_examId >= _marks.Length) return;
                 _marks[_examId]=mark;
                 _examId++;
                 if (_marks.All(m => m >= 4) && _marks.All(m => m != 0) && !_isCountedAsExcellent)

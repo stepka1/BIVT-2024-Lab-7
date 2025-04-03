@@ -47,6 +47,9 @@ namespace Lab_7
             public void Jump(double result)
             {
                 if (_jumps == null) return;
+                
+                // Ищем первую нулевую позицию или заменяем самый слабый прыжок
+                int weakestIndex = 0;
                 for (int i = 0; i < _jumps.Length; i++)
                 {
                     if (_jumps[i] == 0)
@@ -54,7 +57,12 @@ namespace Lab_7
                         _jumps[i] = result;
                         return;
                     }
+                    if (_jumps[i] < _jumps[weakestIndex])
+                    {
+                        weakestIndex = i;
+                    }
                 }
+                _jumps[weakestIndex] = result;
             }
 
             public static void Sort(Participant[] array)
@@ -107,10 +115,10 @@ namespace Lab_7
 
             public void Add(Participant[] participants)
             {
-                int count = participants.Length;
-                for (int i = 0; i < count; i++)
+                if (participants == null) return;
+                foreach (var p in participants)
                 {
-                    Add(_participants[i]);
+                    Add(p);
                 }
             }
 
@@ -135,7 +143,9 @@ namespace Lab_7
         public class LongJump : Discipline
         {
             // Конструктор
-            public LongJump() : base("Long jump") { }
+            public LongJump() : base("Long jump")
+            {
+            }
 
             // Переопределение метода Retry
             public override void Retry(int index)
@@ -144,11 +154,22 @@ namespace Lab_7
                     return;
 
                 Participant participant = Participants[index];
+                double[] jumps = participant.Jumps;
                 double bestJump = participant.BestJump;
-
-                // Добавляем две новые попытки
+                
+                if (jumps == null || jumps.Length == 0)
+                    return;
+                    
+                for (int i = jumps.Length - 1; i >= 0; i--)
+                {
+                    jumps[i] = 0;
+                }
                 participant.Jump(bestJump);
-                participant.Jump(bestJump);
+                participant.Jump(0);
+                participant.Jump(0);
+                
+                // Обновляем участника в массиве
+                Participants[index] = participant;
             }
         }
 
@@ -156,24 +177,34 @@ namespace Lab_7
         public class HighJump : Discipline
         {
             // Конструктор
-            public HighJump() : base("High jump") { }
+            public HighJump() : base("High jump")
+            {
+            }
 
             // Переопределение метода Retry
             public override void Retry(int index)
             {
                 if (index < 0 || index >= Participants.Length)
-                {
                     return;
-                }
 
                 Participant participant = Participants[index];
                 double[] jumps = participant.Jumps;
-
-                // Сбрасываем результат последнего прыжка
-                if (jumps.Length > 0)
+                
+                if (jumps == null || jumps.Length == 0)
+                    return;
+                    
+                // Сбрасываем последний ненулевой прыжок
+                for (int i = jumps.Length - 1; i >= 0; i--)
                 {
-                    jumps[jumps.Length - 1] = 0; // Сбрасываем последний прыжок
+                    if (jumps[i] != 0)
+                    {
+                        jumps[i] = 0;
+                        break;
+                    }
                 }
+                
+                // Обновляем участника в массиве
+                Participants[index] = participant;
             }
         }
     }

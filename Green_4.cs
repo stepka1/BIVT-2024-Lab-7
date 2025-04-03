@@ -47,9 +47,6 @@ namespace Lab_7
             public void Jump(double result)
             {
                 if (_jumps == null) return;
-                
-                // Ищем первую нулевую позицию или заменяем самый слабый прыжок
-                int weakestIndex = 0;
                 for (int i = 0; i < _jumps.Length; i++)
                 {
                     if (_jumps[i] == 0)
@@ -57,12 +54,7 @@ namespace Lab_7
                         _jumps[i] = result;
                         return;
                     }
-                    if (_jumps[i] < _jumps[weakestIndex])
-                    {
-                        weakestIndex = i;
-                    }
                 }
-                _jumps[weakestIndex] = result;
             }
 
             public static void Sort(Participant[] array)

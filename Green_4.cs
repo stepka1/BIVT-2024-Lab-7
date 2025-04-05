@@ -57,6 +57,31 @@ namespace Lab_7
                 }
             }
 
+            // Метод для сброса прыжков, сохраняя лучший
+            public void BestReset()
+            {
+                if (_jumps == null || _jumps.Length == 0) return;
+                
+                double bestJump = BestJump;
+                Array.Clear(_jumps, 0, _jumps.Length);
+                _jumps[0] = bestJump;
+            }
+
+            // Метод для сброса последнего прыжка
+            public void ResetLastJump()
+            {
+                if (_jumps == null) return;
+                
+                for (int i = _jumps.Length - 1; i >= 0; i--)
+                {
+                    if (_jumps[i] != 0)
+                    {
+                        _jumps[i] = 0;
+                        break;
+                    }
+                }
+            }
+
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
@@ -145,23 +170,8 @@ namespace Lab_7
                 if (index < 0 || index >= Participants.Length)
                     return;
 
-                Participant participant = Participants[index];
-                double[] jumps = participant.Jumps;
-                double bestJump = participant.BestJump;
-                
-                if (jumps == null || jumps.Length == 0)
-                    return;
-                    
-                for (int i = jumps.Length - 1; i >= 0; i--)
-                {
-                    jumps[i] = 0;
-                }
-                participant.Jump(bestJump);
-                participant.Jump(0);
-                participant.Jump(0);
-                
-                // Обновляем участника в массиве
-                Participants[index] = participant;
+                ref Participant participant = ref Participants[index]; // Получаем ссылку
+                participant.BestReset(); // Изменяем оригинал
             }
         }
 
@@ -178,25 +188,8 @@ namespace Lab_7
             {
                 if (index < 0 || index >= Participants.Length)
                     return;
-
-                Participant participant = Participants[index];
-                double[] jumps = participant.Jumps;
-                
-                if (jumps == null || jumps.Length == 0)
-                    return;
-                    
-                // Сбрасываем последний ненулевой прыжок
-                for (int i = jumps.Length - 1; i >= 0; i--)
-                {
-                    if (jumps[i] != 0)
-                    {
-                        jumps[i] = 0;
-                        break;
-                    }
-                }
-                
-                // Обновляем участника в массиве
-                Participants[index] = participant;
+                ref Participant participant = ref Participants[index]; // Получаем ссылку
+                participant.ResetLastJump(); // Изменяем оригинал
             }
         }
     }

@@ -57,31 +57,6 @@ namespace Lab_7
                 }
             }
 
-            // Метод для сброса прыжков, сохраняя лучший
-            public void BestReset()
-            {
-                if (_jumps == null || _jumps.Length == 0) return;
-                
-                double bestJump = BestJump;
-                Array.Clear(_jumps, 0, _jumps.Length);
-                _jumps[0] = bestJump;
-            }
-
-            // Метод для сброса последнего прыжка
-            public void ResetLastJump()
-            {
-                if (_jumps == null) return;
-                
-                for (int i = _jumps.Length - 1; i >= 0; i--)
-                {
-                    if (_jumps[i] != 0)
-                    {
-                        _jumps[i] = 0;
-                        break;
-                    }
-                }
-            }
-
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
@@ -125,6 +100,10 @@ namespace Lab_7
             // Методы
             public void Add(Participant participant)
             {
+                if (_participants == null)
+                {
+                    _participants = new Participant[0];
+                }
                 Array.Resize(ref _participants, _participants.Length + 1);
                 _participants[_participantCount] = participant;
                 _participantCount++;
@@ -154,6 +133,23 @@ namespace Lab_7
                     participant.Print();
                 }
             }
+
+            protected Participant GetParticipantAt(int index)
+            {
+                if (_participants != null && index >= 0 && index < _participantCount)
+                {
+                    return _participants[index];
+                }
+                return default(Participant);
+            }
+
+            protected void SetParticipant(int index, Participant participant)
+            {
+                if (_participants != null && index >= 0 && index < _participantCount)
+                {
+                    _participants[index] = participant;
+                }
+            }
         }
 
         // Класс LongJump
@@ -167,11 +163,13 @@ namespace Lab_7
             // Переопределение метода Retry
             public override void Retry(int index)
             {
-                if (index < 0 || index >= Participants.Length)
-                    return;
+                Participant participant = GetParticipantAt(index);
+                double bestJump = participant.BestJump;
+                participant = new Participant(participant.Name, participant.Surname);
 
-                ref Participant participant = ref Participants[index]; // Получаем ссылку
-                participant.BestReset(); // Изменяем оригинал
+                participant.Jump(bestJump);// Сохраняем лучший прыжок
+                SetParticipant(index, participant);
+
             }
         }
 
@@ -186,10 +184,17 @@ namespace Lab_7
             // Переопределение метода Retry
             public override void Retry(int index)
             {
-                if (index < 0 || index >= Participants.Length)
-                    return;
-                ref Participant participant = ref Participants[index]; // Получаем ссылку
-                participant.ResetLastJump(); // Изменяем оригинал
+                Participant participant = GetParticipantAt(index);
+                double[] jumps = participant.Jumps;
+                Participant new_Participant = new Participant(participant.Name, participant.Surname);
+                if (jumps != null)
+                {
+                    for (int i = 0; i < jumps.Length - 1; i++)
+                    {
+                        new_Participant.Jump(jumps[i]);
+                    }
+                }
+                SetParticipant(index, new_Participant);
             }
         }
     }
